@@ -2,7 +2,7 @@
 
 ```text
 TASK: První schvalovací prototyp webu Furt někde
-STATUS: HANDOFF_READY
+STATUS: APPROVED FOR DEVELOPMENT
 APPROVED BY: David Brázda (2026-09-14 – pokyn vytvořit web podle dohodnutého zadání a použít vývojové workflow)
 
 SCOPE:

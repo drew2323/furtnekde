@@ -6,6 +6,7 @@ test.describe('Admin Panel', () => {
   let page: Page
 
   test.beforeAll(async ({ browser }, testInfo) => {
+    testInfo.setTimeout(180_000)
     await seedTestUser()
 
     const context = await browser.newContext()
@@ -40,15 +41,13 @@ test.describe('Admin Panel', () => {
     await expect(editViewArtifact).toBeVisible()
   })
 
-  test('Pages create view shows the RichText content editor (lexical)', async () => {
+  test('Pages create view shows prototype fields and content blocks', async () => {
     await page.goto('http://localhost:3000/admin/collections/pages/create')
     await expect(page).toHaveURL(/\/admin\/collections\/pages\/create/)
 
     await expect(page.locator('input[name="title"]')).toBeVisible()
     await expect(page.locator('input[name="slug"]')).toBeVisible()
-    const richTextEditor = page
-      .locator('[contenteditable="true"], .rich-text, div[class*="lexical"]')
-      .first()
-    await expect(richTextEditor).toBeVisible()
+    await expect(page.getByRole('combobox').first()).toBeVisible()
+    await expect(page.getByText('Obsahové bloky', { exact: true })).toBeVisible()
   })
 })

@@ -170,11 +170,17 @@ export interface Media {
 export interface Page {
   id: number;
   /**
-   * Use / for the homepage or a URL segment such as features.
+   * Domovská stránka používá /, ostatní celou cestu bez úvodního lomítka.
    */
   slug: string;
+  pageType: 'home' | 'course' | 'article' | 'standard';
+  eyebrow?: string | null;
   title: string;
-  content: {
+  summary?: string | null;
+  /**
+   * Pole zůstává kvůli kompatibilitě starších stránek.
+   */
+  content?: {
     root: {
       type: string;
       children: {
@@ -188,9 +194,64 @@ export interface Page {
       version: number;
     };
     [k: string]: unknown;
+  } | null;
+  primaryCta?: {
+    label?: string | null;
+    href?: string | null;
   };
+  /**
+   * Jediný zdroj ceny pro celou prodejní stránku.
+   */
+  coursePrice?: number | null;
+  substantiveUpdatedAt?: string | null;
+  layout?:
+    | (
+        | {
+            heading: string;
+            content: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            heading: string;
+            text: string;
+            label: string;
+            href: string;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+        | {
+            heading?: string | null;
+            items: {
+              question: string;
+              answer: string;
+              id?: string | null;
+            }[];
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+      )[]
+    | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -316,10 +377,58 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   slug?: T;
+  pageType?: T;
+  eyebrow?: T;
   title?: T;
+  summary?: T;
   content?: T;
+  primaryCta?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+      };
+  coursePrice?: T;
+  substantiveUpdatedAt?: T;
+  layout?:
+    | T
+    | {
+        text?:
+          | T
+          | {
+              heading?: T;
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              label?: T;
+              href?: T;
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
