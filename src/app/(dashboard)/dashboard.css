@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+
+:root {
+  --background: #f4f1eb;
+  --surface: #fffdf9;
+  --surface-muted: #ece8df;
+  --foreground: #18332d;
+  --muted: #6f7d78;
+  --border: #ddd8ce;
+  --primary: #214f45;
+  --success: #4d7c5d;
+  --warning: #c58a3a;
+  --danger: #b85c55;
+  --accent: #dfe6a3;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  background: var(--background);
+}
+body {
+  margin: 0;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+.dashboard-app {
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+.dashboard-app :focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 35%, transparent);
+  outline-offset: 3px;
+}
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+}
+.subtle-grid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--primary) 10%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 18px 18px;
+}
+@media (max-width: 767px) {
+  .dashboard-main {
+    padding-bottom: calc(6.5rem + env(safe-area-inset-bottom));
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dashboard-page {
+    animation: page-in 420ms ease-out both;
+  }
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(7px);
+    }
+  }
+}
