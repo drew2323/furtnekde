@@ -1,6 +1,6 @@
 # Project Infrastructure – Furt někde
 
-**Status:** INFRASTRUCTURE_READY
+**Status:** INFRASTRUCTURE READY
 **Project:** Furt někde web
 **Owner:** David Brázda
 **Produkt/obsah:** Tereza

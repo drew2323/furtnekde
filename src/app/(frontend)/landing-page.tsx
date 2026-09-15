@@ -33,9 +33,7 @@ export function LandingPage({ navigation, page }: { navigation: Page[]; page: Pa
           <h1>{page.title}</h1>
           <div className="hero-rule" aria-hidden="true" />
         </section>
-        <article className="page-content">
-          <RichText data={page.content} />
-        </article>
+        {page.content && <article className="page-content"><RichText data={page.content} /></article>}
       </main>
 
       <footer>

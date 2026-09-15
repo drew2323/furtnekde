@@ -9,7 +9,12 @@ export async function getPageBySlug(slug: string) {
   const result = await payload.find({
     collection: 'pages',
     limit: 1,
-    where: { slug: { equals: slug } },
+    where: {
+      and: [
+        { slug: { equals: slug } },
+        { _status: { equals: 'published' } },
+      ],
+    },
   })
   return result.docs[0]
 }
@@ -17,6 +22,11 @@ export async function getPageBySlug(slug: string) {
 export async function getNavigationPages() {
   await connection()
   const payload = await getPayload({ config })
-  const result = await payload.find({ collection: 'pages', limit: 20, sort: 'createdAt' })
+  const result = await payload.find({
+    collection: 'pages',
+    limit: 20,
+    sort: 'createdAt',
+    where: { _status: { equals: 'published' } },
+  })
   return result.docs
 }
