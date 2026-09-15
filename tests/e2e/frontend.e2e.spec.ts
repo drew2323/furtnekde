@@ -22,7 +22,7 @@ const richText = (text: string) => ({
 })
 
 const routes = [
-  { path: '/', heading: /S malými dětmi můžete cestovat/ },
+  { path: '/', heading: /Rodina není brzda/ },
   { path: '/kurzy/letadlem-s-miminkem-a-malymi-detmi', heading: 'Letadlem s miminkem a malými dětmi' },
   { path: '/blog/vzorovy-clanek', heading: 'Co si pohlídat před prvním letem s dítětem' },
 ]
@@ -40,13 +40,13 @@ test.describe('První schvalovací prototyp', () => {
     })
   }
 
-  test('homepage vysvětluje nabídku a rozlišuje tři cesty', async ({ page }) => {
+  test('homepage vysvětluje nabídku a rozlišuje cesty', async ({ page }) => {
     await page.goto('http://localhost:3000')
     await expect(page.getByRole('link', { name: 'Vybrat, s čím potřebujete pomoct' })).toBeVisible()
-    await expect(page.getByText('Připravte se na cestu letadlem')).toBeVisible()
-    await expect(page.getByText('Poskládejte si dovolenou po svém')).toBeVisible()
-    await expect(page.getByText('Nechte si připravit plán na míru')).toBeVisible()
-    await expect(page.getByRole('heading', { name: 'Vybrané články' })).toBeVisible()
+    await expect(page.getByText('Čeká nás let s dítětem')).toBeVisible()
+    await expect(page.getByText('Chci si dovolenou naplánovat sama')).toBeVisible()
+    await expect(page.getByText('Nemám čas všechno hledat')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Praktické odpovědi zdarma' })).toBeVisible()
   })
 
   test('kurz uvádí schválenou cenu a nezobrazuje falešný úspěch', async ({ page }) => {

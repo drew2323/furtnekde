@@ -5,6 +5,11 @@ TASK: První schvalovací prototyp webu Furt někde
 STATUS: APPROVED FOR DEVELOPMENT
 APPROVED BY: David Brázda (2026-09-14 – pokyn vytvořit web podle dohodnutého zadání a použít vývojové workflow)
 
+VISUAL REVISION (APPROVED 2026-09-15):
+- David schválil novou dodanou homepage referenci jako primární cíl pro kompozici, hierarchii, hustotu a responzivní chování `/`.
+- Pouze pro tuto revizi lze dočasně použít lokální fotografické výřezy z dodané reference. Musí být označené k výměně před spuštěním a nesmí prezentovat zobrazené osoby jako skutečnou rodinu Furt někde.
+- Tato úzká výjimka nahrazuje zákaz placeholder/generických fotografií pouze pro homepage vizuální revizi; architektura, integrace a ostatní out-of-scope body se nemění.
+
 SCOPE:
 - Implementovat první schvalovací prototyp podle pořadí dodání v produktovém briefu §13: vizuální základ, homepage, jedna prodejní stránka a vzorový článek.
 - Vytvořit veřejné routy:

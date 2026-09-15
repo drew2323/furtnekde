@@ -1,41 +1,49 @@
 import type { Metadata } from 'next'
-import { ArrowRight, Compass, Map, Plane, Sparkles } from 'lucide-react'
+import Image from 'next/image'
+import { ArrowRight, BookOpen, FileText, Map, Plane, Users } from 'lucide-react'
 import { CmsBlocks } from './_components/cms-blocks'
-import { RouteMap } from './_components/decorations'
 import { PageShell } from './_components/site'
 import { Button, Card, Heading, Section } from './_components/ui'
 import { getPageBySlug } from './page-data'
+import heroImage from '../../../public/images/home/hero.webp'
+import flightImage from '../../../public/images/home/flight.webp'
+import planningImage from '../../../public/images/home/planning.webp'
+import serviceImage from '../../../public/images/home/service.webp'
+import storyImage from '../../../public/images/home/story.webp'
+import articleFlightImage from '../../../public/images/home/article-flight.webp'
+import articlePlanImage from '../../../public/images/home/article-plan.webp'
+import articleStayImage from '../../../public/images/home/article-stay.webp'
 
-export const metadata: Metadata = {
-  title: 'Furt někde | Cestování s malými dětmi, krok za krokem',
-  description: 'Praktická pomoc rodičům, kteří chtějí cestovat s miminkem nebo malými dětmi a potřebují se zorientovat v dalším kroku.',
-  robots: { index: false, follow: false },
-}
+export const metadata: Metadata = { title: 'Furt někde | Cestování s dětmi po svém', description: 'Praktická pomoc rodičům, kteří chtějí cestovat s dětmi s menším stresem a chytřejším plánem.', robots: { index: false, follow: false } }
 
-const paths = [
-  { icon: Plane, kicker: 'Čeká vás let', title: 'Připravte se na cestu letadlem', text: 'Praktický online kurz vás provede přípravou, letištěm i samotným letem.', href: '/kurzy/letadlem-s-miminkem-a-malymi-detmi', link: 'Prohlédnout kurz létání', tone: 'apricot' },
-  { icon: Compass, kicker: 'Chcete plánovat sami', title: 'Poskládejte si dovolenou po svém', text: 'Kurz plánování vám dá systém pro výběr destinace, dopravy i ubytování.', href: '#zaverecny-rozcestnik', link: 'Zjistit, zda je kurz pro vás', tone: 'sage' },
-  { icon: Map, kicker: 'Chcete konkrétní návrh', title: 'Nechte si připravit plán na míru', text: 'Vy popíšete potřeby rodiny, Furt někde připraví konkrétní doporučení k vlastní rezervaci.', href: '#zaverecny-rozcestnik', link: 'Poznat službu na míru', tone: 'sand' },
+const choices = [
+  { icon: Plane, badge: 'Nejčastější', title: 'Čeká nás let s dítětem', text: 'Praktické rady a zkušenosti, které vám usnadní cestu letadlem s dětmi.', href: '/kurzy/letadlem-s-miminkem-a-malymi-detmi', link: 'Kurz létání' },
+  { icon: Map, title: 'Chci si dovolenou naplánovat sama', text: 'Ujasněte si, kam jet, co zařídit a na co nezapomenout. Krok za krokem.', href: '#planovani', link: 'Kurz plánování' },
+  { icon: Users, title: 'Nemám čas všechno hledat', text: 'Připravíme vám dovolenou na míru vaší rodině. Prakticky a realisticky.', href: '#planovani', link: 'Plánování na míru' },
+  { icon: FileText, title: 'Zatím hledám odpověď zdarma', text: 'Články, návody a naše zkušenosti z cest. Bez registrace.', href: '#clanky', link: 'Blog a materiály zdarma' },
+]
+
+const articles = [
+  { image: articleFlightImage, title: 'Jak se připravit na první let s dítětem', text: 'Praktické kroky před cestou i na letišti.' },
+  { image: articlePlanImage, title: 'Co opravdu sbalit na cestu s dítětem', text: 'Jak přemýšlet nad výbavou a co nechat doma.' },
+  { image: articleStayImage, title: 'Jak vybírat ubytování pro rodinu', text: 'Na co se zaměřit, když cestujete s dětmi.' },
 ]
 
 export default async function HomePage() {
   const foundPage = await getPageBySlug('/')
   const page = foundPage?.pageType === 'home' ? foundPage : undefined
-  const title = page?.title || 'S malými dětmi můžete cestovat. Pomůžeme vám vědět, co řešit dál.'
-  const summary = page?.summary || 'Ať vás čeká první let, samostatné plánování nebo hledáte konkrétní návrh dovolené, dostanete praktický další krok bez zbytečného chaosu.'
-  const cta = page?.primaryCta?.label || 'Vybrat, s čím potřebujete pomoct'
-  const ctaHref = page?.primaryCta?.href || '#pomoc'
   const hasCmsLayout = Boolean(page?.layout?.length)
+  const title = page?.title || 'Rodina není brzda. Je to nový směr.'
+  const summary = page?.summary || 'Pomáháme rodičům cestovat s dětmi s menším stresem, chytřejším plánem a větší radostí.'
   return <PageShell>
-    <Section className="home-hero"><div className="hero-grid"><div className="hero-copy"><p className="eyebrow">{page?.eyebrow || 'Cestování s miminkem a malými dětmi'}</p><h1>{title}</h1><p className="lead">{summary}</p><Button href={ctaHref}>{cta}</Button><p className="microcopy">Vyberete si kurz, pomoc na míru, nebo začnete článkem zdarma.</p></div><RouteMap /></div></Section>
+    <Section className="home-hero"><div className="hero-grid"><div className="hero-copy"><p className="eyebrow">{page?.eyebrow || 'Cestování s dětmi po svém'}</p><h1>{title}</h1><p className="lead">{summary}</p><div className="hero-actions"><Button href={page?.primaryCta?.href || '#pomoc'}>{page?.primaryCta?.label || 'Vybrat, s čím potřebujete pomoct'} <ArrowRight size={17} aria-hidden="true" /></Button><Button href="#pomoc" variant="secondary">Zjistit, jak vám pomůžeme</Button></div><div className="proof-row" aria-label="Co na webu najdete"><span><strong>2 kurzy</strong> pro vlastní tempo</span><span><strong>1 služba</strong> plánování na míru</span><span><strong>Zdarma</strong> články a materiály</span></div></div><figure className="hero-photo"><Image src={heroImage} alt="Ilustrační výhled rodiny na přímořskou krajinu; dočasná fotografie" fill priority sizes="(max-width: 760px) 100vw, 52vw" /><figcaption>Stejný svět.<br />Jen s dětmi po svém.</figcaption></figure></div></Section>
     {hasCmsLayout ? <CmsBlocks blocks={page?.layout} /> : <>
-    <Section className="path-section" id="pomoc"><div className="section-intro"><p className="eyebrow">Tři různé cesty</p><Heading>Co právě potřebujete vyřešit?</Heading><p>Nemusíte pročítat celý web. Začněte situací, která je vám nejbližší.</p></div><div className="card-grid">{paths.map(({ icon: Icon, ...path }) => <Card className={`path-card path-card--${path.tone}`} key={path.title}><Icon aria-hidden="true" /><p className="card-kicker">{path.kicker}</p><h3>{path.title}</h3><p>{path.text}</p><Button href={path.href} variant="text">{path.link} <ArrowRight size={17} aria-hidden="true" /></Button></Card>)}</div></Section>
-    <Section className="featured"><div className="featured-grid"><div><p className="eyebrow">Začněte připraveně</p><Heading>Let s dítětem nemusí být jedna velká neznámá</Heading><p>Čtrnáct praktických částí vás provede od výběru letu a balení přes letiště až po jídlo, zabavení a krizové situace.</p><ul className="check-list"><li>Dlouhodobý přístup bez časového tlaku</li><li>Praktické materiály k použití před cestou</li><li>Možnost položit otázku ke kurzu</li></ul><Button href="/kurzy/letadlem-s-miminkem-a-malymi-detmi">Zjistit, co kurz obsahuje</Button></div><div className="ticket" aria-label="Online kurz Letadlem s miminkem a malými dětmi"><span><Plane aria-hidden="true" /> online kurz</span><strong>Letadlem s miminkem a malými dětmi</strong><small>Od přípravy až po přistání</small></div></div></Section>
-    <Section className="articles" id="clanky"><div className="section-heading-row"><div><p className="eyebrow">Čtení na cestu</p><Heading>Vybrané články</Heading></div><Sparkles aria-hidden="true" /></div><div className="article-grid"><Card><p className="card-kicker">Létání</p><h3>Co si pohlídat před prvním letem s dítětem</h3><p>Vzorová redakční struktura s praktickými kroky a odkazy na aktuální zdroje.</p><Button href="/blog/vzorovy-clanek" variant="text">Přečíst vzorový článek <ArrowRight size={17} /></Button></Card><Card className="article-note"><p className="card-kicker">Obsah zdarma</p><h3>Hledáte odpověď na jednu konkrétní otázku?</h3><p>V první schvalovací etapě ukazujeme princip znalostního centra. Další témata doplníme až po schválení směru.</p></Card></div></Section>
-    <Section className="newsletter"><div className="newsletter-inner"><div><p className="eyebrow">E-mailová komunikace</p><Heading>Praktické cestovní čtení do schránky</Heading><p>Tento prototyp ukazuje jeden klidný vstup do e-mailové komunikace. Přihlášení a jeho přesné podmínky se napojí až po schválení.</p></div><a className="button button--secondary" href="#zaverecny-rozcestnik">Podívat se na možnosti</a></div></Section>
-    <Section className="final-paths" id="zaverecny-rozcestnik"><p className="eyebrow">Kam dál?</p><Heading>Vyberte si další krok podle své situace</Heading><div className="final-links"><LinkCard href="/kurzy/letadlem-s-miminkem-a-malymi-detmi" title="Připravit se na let" /><LinkCard href="#pomoc" title="Naučit se plánovat" /><LinkCard href="#pomoc" title="Získat návrh na míru" /></div></Section>
+      <Section className="chooser" id="pomoc"><div className="centered-intro"><Heading>Co právě potřebujete vyřešit?</Heading><p>Vyberte si podle situace, ve které jste.</p></div><div className="choice-grid">{choices.map(({ icon: Icon, badge, ...choice }) => <Card className="choice-card" key={choice.title}><div className="choice-icon"><Icon aria-hidden="true" /></div>{badge && <span className="choice-badge">{badge}</span>}<h3>{choice.title}</h3><p>{choice.text}</p><Button href={choice.href} variant="text">{choice.link} <ArrowRight size={16} aria-hidden="true" /></Button></Card>)}</div></Section>
+      <Section className="flight-feature"><div className="feature-band"><div><p className="eyebrow">Online kurz</p><Heading>První let s dítětem nemusí být stres</Heading><p className="lead">Čtrnáct praktických částí od nákupu letenky až po přistání. S dlouhodobým přístupem a možností položit otázku.</p><Button href="/kurzy/letadlem-s-miminkem-a-malymi-detmi">Chci letět v klidu <ArrowRight size={17} /></Button></div><div className="course-visual"><Image src={flightImage} alt="Ukázka online kurzu a dítě u letištního okna; dočasný obrazový podklad" fill sizes="(max-width: 760px) 100vw, 48vw" /></div></div></Section>
+      <Section className="planning" id="planovani"><div className="centered-intro"><Heading>Dovolenou můžete naplánovat po svém. Nebo ji nechat na nás.</Heading></div><div className="planning-grid"><Card className="planning-card"><div><p className="card-kicker">Online kurz</p><h3>Chci se naučit plánovat</h3><p>Naučíte se vybrat destinaci, naplánovat cestu a zvládnout vše krok za krokem.</p><Button href="#pomoc" variant="text">Prohlédnout kurz <ArrowRight size={16} /></Button></div><Image src={planningImage} alt="Ilustrační pracovní stůl s mapou; dočasná fotografie" /></Card><Card className="planning-card planning-card--service"><div><p className="card-kicker">Naše služba</p><h3>Chci ušetřit čas</h3><p>Připravíme vám plán cesty podle potřeb vaší rodiny; rezervace zůstávají ve vašich rukou.</p><Button href="#pomoc" variant="text">Jak služba funguje <ArrowRight size={16} /></Button></div><Image src={serviceImage} alt="Ilustrační cestovní plán; dočasný obrazový podklad" /></Card></div></Section>
+      <Section className="story" id="o-nas"><div className="story-grid"><figure><Image src={storyImage} alt="Ilustrační rodinná fotografie z cest; zobrazené osoby nejsou rodina Furt někde" /></figure><div><p className="eyebrow">Náš přístup</p><Heading>Cestování s dětmi může mít váš vlastní rytmus</Heading><p className="lead">Sdílíme praktické zkušenosti, které pomáhají proměnit nejistotu v konkrétní plán. Bez tlaku na dokonalou dovolenou.</p><Button href="#clanky" variant="text">Poznat náš přístup <ArrowRight size={16} /></Button></div></div></Section>
+      <Section className="articles" id="clanky"><div className="section-heading-row"><Heading>Praktické odpovědi zdarma</Heading><Button href="/blog/vzorovy-clanek" variant="text">Všechny články <ArrowRight size={16} /></Button></div><div className="articles-grid">{articles.map(article => <Card className="article-card" key={article.title}><Image src={article.image} alt="" width={1200} height={540} /><div><h3>{article.title}</h3><p>{article.text}</p><Button href="/blog/vzorovy-clanek" variant="text">Přečíst článek <ArrowRight size={15} /></Button></div></Card>)}</div></Section>
+      <Section className="freebies"><div className="freebie-grid"><div className="lead-magnet"><p className="eyebrow">Zdarma pro vás</p><Heading>Balicí seznam na cesty s dětmi</Heading><p>Praktická pomůcka, díky které na nic podstatného nezapomenete.</p><Button href="#pomoc">Stáhnout zdarma <ArrowRight size={16} /></Button><BookOpen aria-hidden="true" /></div><div className="newsletter-box"><p className="eyebrow">Cestovací úterý</p><Heading>Jeden praktický tip do e-mailu</Heading><p>Zkušenosti, návody a občas i naše chyby. Funkční přihlášení doplníme až po schválení napojení.</p><a className="button button--secondary" href="#pomoc">Zjistit více</a></div></div></Section>
     </>}
   </PageShell>
 }
-
-function LinkCard({ href, title }: { href: string; title: string }) { return <a className="final-link" href={href}><span>{title}</span><ArrowRight aria-hidden="true" /></a> }
