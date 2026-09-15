@@ -1,3 +1,3 @@
-# Dočasné obrazové podklady homepage
+# Obrazové podklady homepage
 
-Soubory v této složce jsou lokální výřezy z vizuální reference schválené Davidem 15. 9. 2026. Slouží jen pro schvalovací prototyp a před spuštěním musí být nahrazeny skutečnými fotografiemi Furt někde. Zobrazené osoby nejsou prezentovány jako skutečná rodina značky.
+Soubory `hero.webp`, `flight.webp` a `story.webp` jsou skutečné fotografie rodiny Furt někde. Ostatní fotografie v této složce jsou dočasné lokální výřezy z vizuální reference schválené Davidem 15. 9. 2026 a před spuštěním musí být nahrazeny.
