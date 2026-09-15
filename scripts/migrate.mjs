@@ -38,7 +38,7 @@ let exitCode = 0
 let termSignal
 try {
   exitCode = await new Promise((resolve, reject) => {
-    child = spawn('corepack', ['pnpm', 'run', 'payload', '--', 'migrate'], { stdio: 'inherit', env: process.env })
+    child = spawn('corepack', ['pnpm', 'run', 'payload', 'migrate'], { stdio: 'inherit', env: process.env })
     child.once('error', (e) => reject(e))
     child.once('exit', (code, signal) => {
       if (signal) { termSignal = signal; resolve(128) } else resolve(code ?? 1)
