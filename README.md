@@ -1,6 +1,17 @@
-# Furt někde – web
+# Furt někde
 
-Nový web Family-Travel značky Furt někde (Next.js + Payload CMS + PostgreSQL). Live produkci `furtnekde.cz` (WordPress) se během stavby nemění; skeleton se staví v neveřejném testovacím prostředí.
+Nový web rodinné cestovatelské značky Furt někde. Veřejný web propojuje obsah, kurzy a plánování dovolené na míru; obsah spravuje Payload CMS.
+
+## Stack
+
+- Next.js + React + TypeScript
+- Payload CMS
+- PostgreSQL
+- Tailwind CSS
+- Vitest + Playwright
+- Docker image nasazovaný přes Coolify
+
+Aktuální chování a datový model určují kód, migrace a testy. Stabilní produktový kontext je v [DreamTeam docs](https://github.com/drew2323/dreamteam-docs/tree/main/src/content/docs/projects/furt-nekde). Zadání změn, acceptance criteria, rozhodnutí a průběžný stav patří do projektu **Furt někde** v Multica, nikoli do nových handoff/spec souborů v repozitáři.
 
 ## Lokální spuštění
 
@@ -13,18 +24,24 @@ set -a; . ./.env; set +a
 corepack pnpm dev
 ```
 
-Aplikace běží na `http://localhost:3000`, health endpoint na `/api/health`, Payload admin na `/admin`.
+- web: `http://localhost:3000`
+- administrace: `http://localhost:3000/admin`
+- health: `http://localhost:3000/api/health`
 
-## Ověření
+## Ověření změny
 
 ```sh
-./scripts/preflight.sh --infrastructure
 PLAYWRIGHT_EXECUTABLE_PATH=/usr/bin/chromium ./scripts/quality.sh
 ```
 
-## Dokumentace
+Quality gate spouští lint, typecheck, integrační testy, produkční build a E2E testy.
 
-- `SPEC.md` – zadanie a acceptance criteria (kanonický detail: mini-team brief).
-- `ARCHITECTURE.md` – schválená architektura (stack, integrace, delivery model, domény).
-- `WEB_PLATFORM.md` – projektový delivery kontrakt.
-- `PROJECT-INFRASTRUCTURE.md` – skutečné prostředky a ověřovací důkazy bootstrapu.
+## Jak přispívat
+
+Před prací si přečti `AGENTS.md`. Stabilní informace o prostředích, preview, nasazení a rollbacku jsou v `docs/OPERATIONS.md`.
+
+Standardní tok je:
+
+`Multica ticket → samostatná branch → testy → draft PR + preview → Hermes PM → lidské review → merge → produkční ověření`
+
+Bez aktivního Multica ticketu se změna nezačíná. Produkční merge, deploy ani práci s produkčními daty agent neschvaluje sám.

@@ -1,20 +1,20 @@
 # Agent Rules
 
-1. Před změnou přečti `SPEC.md`, `ARCHITECTURE.md`, `WEB_PLATFORM.md`, `PROJECT-INFRASTRUCTURE.md` a aktivní `DEVELOPMENT-HANDOFF.md`.
-2. Implementuj pouze scope schváleného Development Handoffu. Nejasnost nebo architektonickou odchylku vrať jako blocker.
-3. Implementation details rozhodni podle repozitáře; neměň schválenou high-level architekturu bez souhlasu.
-4. Pracuj na samostatné branchi. Nikdy necommituj secrets ani produkční data.
-5. Spusť relevantní testy, lint, typecheck a build. Selhání nezakrývej.
-6. Commitni změnu a vytvoř PR. Do výsledku uveď scope, gates, PR, preview a blockery.
-7. Produkci neměň přímo. Nasazení probíhá přes merge do `main` a Coolify.
-8. Neměň `Dockerfile`, deploy hooky, healthcheck ani prostředí bez výslovně schváleného infrastrukturního scope.
+1. **Multica ticket je jediný zdroj pravdy pro změnu.** Musí obsahovat outcome, scope, acceptance criteria a vlastníka. Handoff, průběžný stav, rozhodnutí a blockery zapisuj do ticketu; nevytvářej pro ně nové Markdown dokumenty.
+2. Před zahájením přečti ticket a `README.md`. Stabilní produktový kontext čti v [DreamTeam docs](https://github.com/drew2323/dreamteam-docs/tree/main/src/content/docs/projects/furt-nekde). `docs/OPERATIONS.md` čti při změně runtime, dat, deploye nebo infrastruktury.
+3. Pracuj na samostatné branchi z aktuálního `main`; název musí obsahovat identifikátor ticketu (např. `codex/dt-123-short-name`). Jeden ticket = jedna branch = jeden PR.
+4. Neměň nic mimo scope ticketu. Nutnou vedlejší změnu nejprve popiš v ticketu; bez schválení ji nedělej.
+5. Behaviorální změny vyvíjej test-first. U změn aplikace nebo runtime spusť `./scripts/quality.sh`. U docs-only změny stačí kontrola odkazů a formátu; u samostatné změny shell skriptu minimálně `sh -n <script>`. Vždy přesně uveď, co proběhlo a co ne.
+6. PR musí odkazovat na Multica ticket a obsahovat shrnutí, testy, rizika a ověřenou Coolify preview URL. U čistě dokumentační změny napiš `Preview: not required (docs-only)`.
+7. Agent smí commitnout, pushnout a otevřít draft PR. Po dokončení předá ticket Hermes PM. Agent nesmí sám mergeovat, spouštět produkční deploy, předávat práci přímo člověku ani uzavřít ticket jako `done`.
+8. Hermes PM vyhodnotí důkazy a rozhodne o opravě, dalším ověření nebo lidském review. Připomínky se opravují na stejné branchi. Ticket jde do `done` až po schváleném merge a ověření cílového prostředí.
+9. Produkční data, tajemství, migrace, importy, změny Coolify a přechod živé domény vyžadují explicitní scope ticketu, zálohu a rollback plán. Tajemství nikdy necommituj ani nevypisuj.
+10. Pokud je ticket nejasný nebo preview/CI nefunguje, zastav se a zapiš konkrétní blocker. Nerozšiřuj práci odhadem.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
 
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+Before any Next.js work, read the relevant documentation in `node_modules/next/dist/docs/`. The bundled docs are the source of truth for the installed version.
 
 <!-- END:nextjs-agent-rules -->
