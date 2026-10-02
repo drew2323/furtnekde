@@ -1,6 +1,6 @@
 # Operations
 
-Tento dokument obsahuje pouze stabilní provozní kontrakt. Aktuální změny, incidenty, rollout rozhodnutí a důkazy patří do Multica ticketu.
+Tento dokument obsahuje pouze stabilní provozní kontrakt. Aktuální změny, incidenty, rollout rozhodnutí a důkazy patří do příslušného ticketu.
 
 ## Prostředí
 
@@ -17,7 +17,7 @@ Health endpoint je `/api/health`. Preview ani lokální vývoj nesmí používat
 
 - Git: `https://github.com/drew2323/furtnekde`, výchozí branch `main`
 - Stabilní produktový kontext: `https://github.com/drew2323/dreamteam-docs/tree/main/src/content/docs/projects/furt-nekde`
-- Plánování a stav práce: Multica, projekt **Furt někde**
+- Plánování a stav práce: aktuální projektový nástroj, projekt **Furt někde**
 - CI: GitHub Actions, workflow `.github/workflows/ci.yml`
 - Runtime a preview: Coolify na `vpswebfarma`
 - Coolify project: `5xqfxydbaoysdreesu6hpefe`
@@ -29,7 +29,7 @@ Přístupy a secrets jsou v příslušných systémech, nikdy v repozitáři neb
 
 ## Delivery workflow
 
-1. Zadavatel nebo Hermes PM vytvoří Multica ticket s outcome, scope a acceptance criteria.
+1. Zadavatel nebo Hermes PM vytvoří ticket v aktuálním projektovém nástroji s outcome, scope a acceptance criteria.
 2. Hermes PM předá implementačně připravený ticket jednomu vývojovému agentovi. Agent vytvoří branch s identifikátorem ticketu.
 3. Agent implementuje pouze ticket; průběžný stav a blockery píše do ticketu.
 4. U změny aplikace/runtime spustí `./scripts/quality.sh`; docs-only změna používá cílené kontroly z `AGENTS.md`. Potom pushne branch a otevře draft PR.

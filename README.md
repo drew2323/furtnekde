@@ -11,7 +11,7 @@ Nový web rodinné cestovatelské značky Furt někde. Veřejný web propojuje o
 - Vitest + Playwright
 - Docker image nasazovaný přes Coolify
 
-Aktuální chování a datový model určují kód, migrace a testy. Stabilní produktový kontext je v [DreamTeam docs](https://github.com/drew2323/dreamteam-docs/tree/main/src/content/docs/projects/furt-nekde). Zadání změn, acceptance criteria, rozhodnutí a průběžný stav patří do projektu **Furt někde** v Multica, nikoli do nových handoff/spec souborů v repozitáři.
+Aktuální chování a datový model určují kód, migrace a testy. Stabilní produktový kontext je v [DreamTeam docs](https://github.com/drew2323/dreamteam-docs/tree/main/src/content/docs/projects/furt-nekde). Zadání změn, acceptance criteria, rozhodnutí a průběžný stav patří do ticketu v aktuálním projektovém nástroji, nikoli do nových handoff/spec souborů v repozitáři.
 
 ## Lokální spuštění
 
@@ -42,6 +42,6 @@ Před prací si přečti `AGENTS.md`. Stabilní informace o prostředích, previ
 
 Standardní tok je:
 
-`Multica ticket → samostatná branch → testy → draft PR + preview → Hermes PM → lidské review → merge → produkční ověření`
+`ticket → samostatná branch → testy → draft PR + preview → Hermes PM → lidské review → merge → produkční ověření`
 
-Bez aktivního Multica ticketu se změna nezačíná. Produkční merge, deploy ani práci s produkčními daty agent neschvaluje sám.
+Bez aktivního ticketu se změna nezačíná. Produkční merge, deploy ani práci s produkčními daty agent neschvaluje sám.
