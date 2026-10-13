@@ -7,6 +7,8 @@ import { defineConfig, devices } from '@playwright/test'
 import 'dotenv/config'
 
 const executablePath = process.env.PLAYWRIGHT_EXECUTABLE_PATH
+const frontendBaseUrl = process.env.TEST_BASE_URL ?? 'http://localhost:3000'
+const frontendPort = new URL(frontendBaseUrl).port || '3000'
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -42,8 +44,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm dev',
+    command: `pnpm dev --port ${frontendPort}`,
     reuseExistingServer: true,
-    url: 'http://localhost:3000',
+    url: frontendBaseUrl,
   },
 })
