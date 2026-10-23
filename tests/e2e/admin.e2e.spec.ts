@@ -2,6 +2,8 @@ import { test, expect, Page } from '@playwright/test'
 import { login } from '../helpers/login'
 import { seedTestUser, cleanupTestUser, testUser } from '../helpers/seedUser'
 
+const frontendBaseUrl = process.env.TEST_BASE_URL ?? 'http://localhost:3000'
+
 test.describe('Admin Panel', () => {
   let page: Page
 
@@ -20,29 +22,29 @@ test.describe('Admin Panel', () => {
   })
 
   test('can navigate to dashboard', async () => {
-    await page.goto('http://localhost:3000/admin')
-    await expect(page).toHaveURL('http://localhost:3000/admin')
+    await page.goto(`${frontendBaseUrl}/admin`)
+    await expect(page).toHaveURL(`${frontendBaseUrl}/admin`)
     const dashboardArtifact = page.locator('span[title="Dashboard"]').first()
     await expect(dashboardArtifact).toBeVisible()
     await expect(page.locator('#nav-pages')).toBeVisible()
   })
 
   test('can navigate to list view', async () => {
-    await page.goto('http://localhost:3000/admin/collections/users')
-    await expect(page).toHaveURL('http://localhost:3000/admin/collections/users')
+    await page.goto(`${frontendBaseUrl}/admin/collections/users`)
+    await expect(page).toHaveURL(`${frontendBaseUrl}/admin/collections/users`)
     const listViewArtifact = page.locator('h1', { hasText: 'Users' }).first()
     await expect(listViewArtifact).toBeVisible()
   })
 
   test('can navigate to edit view', async () => {
-    await page.goto('http://localhost:3000/admin/collections/users/create')
+    await page.goto(`${frontendBaseUrl}/admin/collections/users/create`)
     await expect(page).toHaveURL(/\/admin\/collections\/users\/[a-zA-Z0-9-_]+/)
     const editViewArtifact = page.locator('input[name="email"]')
     await expect(editViewArtifact).toBeVisible()
   })
 
   test('Pages create view shows prototype fields and content blocks', async () => {
-    await page.goto('http://localhost:3000/admin/collections/pages/create')
+    await page.goto(`${frontendBaseUrl}/admin/collections/pages/create`)
     await expect(page).toHaveURL(/\/admin\/collections\/pages\/create/)
 
     await expect(page.locator('input[name="title"]')).toBeVisible()

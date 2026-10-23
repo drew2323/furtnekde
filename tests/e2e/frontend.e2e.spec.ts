@@ -3,6 +3,8 @@ import { getPayload } from 'payload'
 
 import config from '../../src/payload.config.js'
 
+const frontendBaseUrl = process.env.TEST_BASE_URL ?? 'http://localhost:3000'
+
 const richText = (text: string) => ({
   root: {
     children: [{
@@ -32,7 +34,7 @@ test.describe('První schvalovací prototyp', () => {
     test(`${route.path} vrací 200 a nemá horizontální overflow`, async ({ page }) => {
       for (const viewport of [{ width: 375, height: 812 }, { width: 1366, height: 768 }]) {
         await page.setViewportSize(viewport)
-        const response = await page.goto(`http://localhost:3000${route.path}`)
+        const response = await page.goto(`${frontendBaseUrl}${route.path}`)
         expect(response?.status()).toBe(200)
         await expect(page.getByRole('heading', { level: 1, name: route.heading })).toBeVisible()
         expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
@@ -41,7 +43,7 @@ test.describe('První schvalovací prototyp', () => {
   }
 
   test('homepage vysvětluje nabídku a rozlišuje cesty', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto(frontendBaseUrl)
     await expect(page.getByRole('link', { name: 'Vybrat, s čím potřebujete pomoct' })).toBeVisible()
     await expect(page.getByText('Čeká nás let s dítětem')).toBeVisible()
     await expect(page.getByText('Chci si dovolenou naplánovat sama')).toBeVisible()
@@ -49,8 +51,26 @@ test.describe('První schvalovací prototyp', () => {
     await expect(page.getByRole('heading', { name: 'Praktické odpovědi zdarma' })).toBeVisible()
   })
 
+  test('homepage drží hlavní sdělení, fotografii a tři obchodní cesty v přehledné hierarchii', async ({ page }) => {
+    for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 900 }]) {
+      await page.setViewportSize(viewport)
+      await page.goto(frontendBaseUrl)
+
+      const primaryCta = page.getByRole('link', { name: 'Vybrat, s čím potřebujete pomoct' })
+      await expect(primaryCta).toBeVisible()
+      await expect(page.getByRole('img', { name: 'Rodina s dítětem pozoruje panorama města' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Tři cesty k rodinnému cestování po vašem' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Kurz létání' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Kurz plánování' })).toBeVisible()
+      await expect(page.getByRole('heading', { name: 'Plánování na míru' })).toBeVisible()
+
+      expect(await primaryCta.evaluate((element) => getComputedStyle(element).backgroundColor)).toBe('rgb(242, 143, 178)')
+      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(viewport.width)
+    }
+  })
+
   test('kurz uvádí schválenou cenu a nezobrazuje falešný úspěch', async ({ page }) => {
-    await page.goto('http://localhost:3000/kurzy/letadlem-s-miminkem-a-malymi-detmi')
+    await page.goto(`${frontendBaseUrl}/kurzy/letadlem-s-miminkem-a-malymi-detmi`)
     await expect(page.getByText('1 390 Kč')).toHaveCount(2)
     await expect(page.getByText('jednorázově · bez splátek')).toBeVisible()
     await expect(page.getByText('14 praktických částí', { exact: true }).first()).toBeVisible()
@@ -59,7 +79,7 @@ test.describe('První schvalovací prototyp', () => {
   })
 
   test('článek má obsah, hierarchii, zdroje, FAQ a newsletter', async ({ page }) => {
-    await page.goto('http://localhost:3000/blog/vzorovy-clanek')
+    await page.goto(`${frontendBaseUrl}/blog/vzorovy-clanek`)
     await expect(page.locator('h1')).toHaveCount(1)
     await expect(page.getByRole('navigation', { name: 'Obsah článku' })).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Zdroje a datum kontroly' })).toBeVisible()
@@ -90,18 +110,18 @@ test.describe('První schvalovací prototyp', () => {
         })
       }
 
-      await page.goto('http://localhost:3000')
+      await page.goto(frontendBaseUrl)
       await expect(page.getByText('CMS homepage')).toBeVisible()
       await expect(page.getByRole('heading', { name: 'Editovatelný obsah homepage' })).toBeVisible()
       await expect(page.getByText('Připravte se na cestu letadlem')).toHaveCount(0)
 
-      await page.goto('http://localhost:3000/kurzy/letadlem-s-miminkem-a-malymi-detmi')
+      await page.goto(`${frontendBaseUrl}/kurzy/letadlem-s-miminkem-a-malymi-detmi`)
       await expect(page.getByText('CMS kurz', { exact: true })).toBeVisible()
       await expect(page.getByRole('heading', { name: 'Editovatelný obsah kurzu' })).toBeVisible()
       await expect(page.getByText('Pro koho kurz je')).toHaveCount(0)
       await expect(page.getByText('1 390 Kč')).toHaveCount(1)
 
-      await page.goto('http://localhost:3000/blog/vzorovy-clanek')
+      await page.goto(`${frontendBaseUrl}/blog/vzorovy-clanek`)
       await expect(page.getByText('CMS rubrika', { exact: true })).toBeVisible()
       await expect(page.getByRole('heading', { name: 'Editovatelný obsah článku' })).toBeVisible()
       await expect(page.getByRole('navigation', { name: 'Obsah článku' })).toHaveCount(0)
@@ -132,7 +152,7 @@ test.describe('První schvalovací prototyp', () => {
   })
 
   test('náhled je noindex a focus je viditelný', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+    await page.goto(frontendBaseUrl)
     await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/)
     await page.keyboard.press('Tab')
     const focused = page.locator(':focus')
