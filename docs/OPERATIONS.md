@@ -7,8 +7,8 @@ Tento dokument obsahuje pouze stabilní provozní kontrakt. Aktuální změny, i
 | Prostředí | URL | Data | Účel |
 |---|---|---|---|
 | Local | `http://localhost:3000` | lokální PostgreSQL z `docker-compose.yml` | vývoj a testy |
-| Preview | `https://pr-<id>.furtnekde.2.56.97.3.sslip.io` | oddělená sdílená preview DB | lidské review PR |
-| Test production | `https://furtnekde.2.56.97.3.sslip.io` | testovací production DB | ověření `main` před spuštěním značky |
+| Preview | URL vytvořená Coolify a vložená do PR | oddělená sdílená preview DB | lidské review PR |
+| Test production | dočasná doména z Coolify (viz Coolify aplikace) | testovací production DB | ověření `main` před spuštěním značky |
 | Live WordPress | `https://furtnekde.cz` | stávající produkční data | zůstává beze změny do schváleného launch issue |
 
 Health endpoint je `/api/health`. Preview ani lokální vývoj nesmí používat testovací nebo živá produkční data a secrets. Preview DB je sdílená; současně smí běžet jen jedna změna s migrací.
@@ -19,11 +19,8 @@ Health endpoint je `/api/health`. Preview ani lokální vývoj nesmí používat
 - Stabilní produktový kontext: `https://github.com/drew2323/dreamteam-docs/tree/main/src/content/docs/projects/furt-nekde`
 - Plánování a stav práce: aktuální projektový nástroj, projekt **Furt někde**
 - CI: GitHub Actions, workflow `.github/workflows/ci.yml`
-- Runtime a preview: Coolify na `vpswebfarma`
-- Coolify project: `5xqfxydbaoysdreesu6hpefe`
-- Coolify application: `c74mexfmnyaiwvhle25gs9uc`
-- Test production database: `d0x1o7hxd8vs3myiarbahirx`
-- Preview database: `54zradk9ixpspdb8flrbgjuw`
+- Runtime a preview: Coolify; test production a preview mají samostatné Coolify databáze.
+- Konkrétní instance (Coolify aplikace, databáze, server, interní URL) nejsou v repu: zjistí se v Coolify podle repa (`coolify where <app>`). Repo je public.
 
 Přístupy a secrets jsou v příslušných systémech, nikdy v repozitáři nebo komentáři issue.
 
@@ -36,7 +33,7 @@ Přístupy a secrets jsou v příslušných systémech, nikdy v repozitáři neb
 5. Coolify vytvoří preview. Agent ověří `./scripts/verify.sh <preview-url>` a vloží URL i výsledek do PR a issue.
 6. Agent předá issue Dev Leadovi. Lead zkontroluje scope, gates a důkazy a rozhodne, zda práci vrátit, dále ověřit nebo vyžádat lidské review.
 7. Pouze člověk schválí merge do `main`. Merge spustí deployment test production.
-8. Po deployi se ověří `./scripts/verify.sh https://furtnekde.2.56.97.3.sslip.io`. Issue se uzavře až po požadovaném ověření.
+8. Po deployi se ověří `./scripts/verify.sh <test-production-url>`. Issue se uzavře až po požadovaném ověření.
 
 Chybějící CI nebo preview je blocker review. Agent nesmí použít production deployment jako náhradu preview.
 
