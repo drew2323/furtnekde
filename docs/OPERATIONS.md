@@ -32,7 +32,7 @@ Přístupy a secrets jsou v příslušných systémech, nikdy v repozitáři neb
 4. U změny aplikace/runtime spustí `./scripts/quality.sh`; docs-only změna používá cílené kontroly z `AGENTS.md`. Potom pushne branch a otevře draft PR.
 5. Coolify vytvoří preview. Agent ověří `./scripts/verify.sh <preview-url>` a vloží URL i výsledek do PR a issue.
 6. Agent předá issue Dev Leadovi. Lead zkontroluje scope, gates a důkazy a rozhodne, zda práci vrátit, dále ověřit nebo vyžádat lidské review.
-7. Pouze člověk schválí merge do `main`. Merge spustí deployment test production.
+7. Merge do `main` podle `.github/agent.yml` (`auto`: agent po zeleném CI a ověřeném preview; `review`: člověk). Merge spustí deployment test production.
 8. Po deployi se ověří `./scripts/verify.sh <test-production-url>`. Issue se uzavře až po požadovaném ověření.
 
 Chybějící CI nebo preview je blocker review. Agent nesmí použít production deployment jako náhradu preview.

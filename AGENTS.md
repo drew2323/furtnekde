@@ -6,8 +6,8 @@
 4. Neměň nic mimo scope issue. Nutnou vedlejší změnu nejprve popiš v issue; bez schválení ji nedělej.
 5. Behaviorální změny vyvíjej test-first. U změn aplikace nebo runtime spusť `./scripts/quality.sh`. U docs-only změny stačí kontrola odkazů a formátu; u samostatné změny shell skriptu minimálně `sh -n <script>`. Vždy přesně uveď, co proběhlo a co ne.
 6. PR musí odkazovat na příslušné issue a obsahovat shrnutí, testy, rizika a ověřenou Coolify preview URL. U čistě dokumentační změny napiš `Preview: not required (docs-only)`.
-7. Agent smí commitnout, pushnout a otevřít draft PR. Po dokončení předá issue Dev Leadovi. Agent nesmí sám mergeovat, spouštět produkční deploy, předávat práci přímo člověku ani uzavřít issue jako `done`.
-8. Dev Lead vyhodnotí důkazy a rozhodne o opravě, dalším ověření nebo lidském review. Připomínky se opravují na stejné branchi. Issue jde do `done` až po schváleném merge a ověření cílového prostředí.
+7. Agent smí commitnout, pushnout a otevřít PR. Merge řídí `.github/agent.yml`: `merge: auto` → po zeleném CI a ověřeném preview PR sám squash-mergni (merge nasadí test production); `merge: review` nebo label `merge:review` → nemerguj a předej issue Dev Leadovi. Jiný deploy než merge agent nespouští, práci nepředává přímo člověku a issue neuzavře jako `done` před ověřením cílového prostředí.
+8. Dev Lead vyhodnotí důkazy a rozhodne o opravě, dalším ověření nebo lidském review. Připomínky se opravují na stejné branchi. Issue jde do `done` až po merge a ověření cílového prostředí.
 9. Produkční data, tajemství, migrace, importy, změny Coolify a přechod živé domény vyžadují explicitní scope issue, zálohu a rollback plán. Tajemství nikdy necommituj ani nevypisuj.
 10. Pokud je issue nejasné nebo preview/CI nefunguje, zastav se a zapiš konkrétní blocker. Nerozšiřuj práci odhadem.
 
